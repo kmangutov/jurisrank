@@ -1,0 +1,23 @@
+
+
+@import 'gutter';
+@import 'typography';
+
+.case-contents {
+  overflow-y: scroll;
+  max-height: 550px !important;
+}
+
+.case-tabs-height {
+  height: 53px  !important;
+}
+
+.case-contents-short {
+  overflow-y: scroll;
+  max-height: 470px !important;
+}
+
+.factor-selected {
+  font-weight: bold;
+  text-decoration: underline;
+}
