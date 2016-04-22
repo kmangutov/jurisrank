@@ -96,22 +96,7 @@ var renderTestCase = function() {
 
     var insert = "<span style='background-color:" + colors[obj.factor % colors.length] + "'>" + obj.text + "</span>";
     finalHtml = replaceAll(finalHtml, obj.text, insert);
-
-    /*var insert = "<b>" + obj.text + "</b>";
-    var impact = insert.length - obj.text.length;
-
-    var startIndex = obj.startIndex + offset
-    var endIndex = obj.startIndex + offset + obj.length;
-
-    console.log("stratIndex " + startIndex + ", endIndex " + endIndex);
-
-    finalHtml = finalHtml.slice(0, startIndex) + insert + finalHtml.slice(endIndex);
-
-    offset += impact;
-    gunkLength += impact;*/
   });
-
-  //console.log(finalHtml);
 
   testCase.html(finalHtml);
 }
@@ -140,32 +125,9 @@ var renderFactors = function() {
         hRoot.append(h);
       }
     }
-    /*highlights.forEach(function(obj) {
-      console.log("CONSIDER highlight for factor " + obj.factor);
-      if(obj.factor == i) {
-        var h = $("li");
-        h.html(obj.text);
-        hRoot.append(h);
-        console.log("APPEND factor " + i + ", highlight " + hc);
-        hc++;
-      }
-    });*/
-    /*forEachHighlight(i, function(obj) {
-      console.log("factor " + i + " has highlight " + obj.text);
-      var h = $("li");
-      h.text(obj.text);
-      hRoot.append(h);
-    });*/
-    /*forEachHighlight(i, function(obj) {
-      var h = $("li");
-      h.html(obj.text);
-      hRoot.append(h);
-    });
-    node.append(hRoot);*/
-
+    
     root.append(node);    
     node.append(hRoot);
-
   }
 }
 
