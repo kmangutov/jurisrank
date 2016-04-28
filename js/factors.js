@@ -127,30 +127,101 @@ var renderTestCase = function() {
 var renderFactors = function() {
   root.empty();
   for(var i = 0; i < factors.length; i++) {
-    var node = $("<li>");
+
+    console.log("factor: " + i)
+
+    var node = $("<tr>");
+    var td = $("<td>");
     var text = $("<span>");
 
     if(i == selectedFactor) {
       text.addClass("factor-selected");
     }
 
-    text.css("background-color", colors[i % colors.length]);
-    text.html(factors[i]);
-    node.click(makeFunctionCallI(factorSelect, i));
-    node.append(text);
+    td.css("background-color", colors[i % colors.length]);
+    td.css("text-align", "center");
+    text.css("text-size", "22px !important")
+    text.html(factors[i] + "<br>");
+    text.click(makeFunctionCallI(factorSelect, i));
+    //node.append(text);
+    td.append(text);
+    node.append(td);
 
-    var hRoot = $("<ol>");
+    var hRoot = $("<table>");
+    var count = 0;
+
+    var trA = $("<tr>");
+
+    var thA = $("<th>");
+    thA.html("Case");
+
+    var thB = $("<th>");
+    thB.html("Support");
+
+    trA.append(thA)
+    trA.append(thB)
+    hRoot.append(trA);
+
+
+    var sortedH = highlights.sort(function(a, b) {
+      return a.case - b.case;
+    });
 
     for(var j = 0; j < highlights.length; j++) {
-      if(highlights[j].factor == i) {
-        var h = $("<li>");
-        h.html(highlights[j].text);
-        hRoot.append(h);
+      if(sortedH[j].factor == i) {
+        count++;
+        var _td = $("<tr>");
+
+        var a = $("<td>");
+        a.html(sortedH[j].case);
+
+        var b = $("<td>");
+        b.html(sortedH[j].text);
+
+        _td.append(a);
+        _td.append(b);
+        hRoot.append(_td)
+
+        var _td2 = $("<tr>");
+        var a2 = $("<td>");
+        var b2 = $("<td>");
+
+        var slider = $("<input>");
+        slider.prop("type", "range");
+        slider.prop("min", "0");
+        slider.prop("max", "10");
+        slider.prop("step", "1");
+        slider.prop("value", "5");
+
+        var b2_center = $("<center>");
+
+        var textIC = $("<span>")
+        textIC.html("IC&nbsp;");
+
+        var textE = $("<span>")
+        textE.html("&nbsp;E");
+
+
+        b2_center.append(textIC);
+        b2_center.append(slider);
+        b2_center.append(textE);
+        b2.append(b2_center);
+
+
+        _td2.append(a2);
+        _td2.append(b2);
+
+
+        hRoot.append(_td2);
       }
     }
     
+
+    if(count > 0) {
+      console.log(JSON.stringify(hRoot));
+      td.append(hRoot);
+    }
     root.append(node);    
-    node.append(hRoot);
   }
 }
 
