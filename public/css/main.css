@@ -71,4 +71,8 @@ h3 {
 
 .factor-selected {
   font-weight: bold;
-  text-decoration: underline; }
+   }
+
+td {
+  vertical-align: middle !important;
+}
