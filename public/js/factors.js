@@ -13,10 +13,19 @@ var factors = ["Distinct from principal",
 "Payment by time or by job",
 "Belief of employer-employee relationship"]
 
-var highlights = [];//{start:x, length:y, factor:i}
+var highlights = [];//{start:x, length:y, factor:i, case:z}
 var root = $("#list-factors");
-var testCase = $("#case-test");
-var defaultTestCaseHTML = "";
+
+
+var defaultHTMLs = {};
+var loadDefaultHTMLs = function() {
+  $("[data-case]").each(function f() {
+    var id = $(this).data('case');
+    defaultHTMLs[id] = $(this).html();
+  });
+}
+
+loadDefaultHTMLs();
 
 var selectedFactor = -1;
 var gunkLength = 0;
@@ -44,7 +53,7 @@ function getSelectionText() {
   return text;
 }
 
-var onTestSelect = function() {
+var onTestSelect = function(id) {
   if(selectedFactor == -1) {
     console.log("No factor selected");
     return;
@@ -57,8 +66,9 @@ var onTestSelect = function() {
     return;
   }
 
-  var html = testCase.html();
-  var startIndex = defaultTestCaseHTML.indexOf(selection);
+  //var html = testCase.html();
+  var defaultHTML = defaultHTMLs[id];
+  var startIndex = defaultHTML.indexOf(selection);
   var endIndex = startIndex + selection.length;
 
   /*console.log(selection);
@@ -71,7 +81,8 @@ var onTestSelect = function() {
     startIndex: startIndex,
     length: selection.length,
     factor: selectedFactor,
-    text: selection
+    text: selection,
+    case: id
   };
   highlights.push(obj);
   console.log(JSON.stringify(highlights));
@@ -80,7 +91,12 @@ var onTestSelect = function() {
   renderTestCase();
 }
 
-$("#case-test").mouseup(function(){ onTestSelect(); });
+$("[data-case]").mouseup(function(){ 
+  var id = $(this).data('case');
+  console.log("case: " + id);
+
+  onTestSelect(id); 
+});
 
 function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
@@ -89,16 +105,23 @@ function replaceAll(str, find, replace) {
 var renderTestCase = function() {
   //defaultTestCaseHTML 
 
-  var finalHtml = defaultTestCaseHTML;
-  var offset = 0;
+  $("[data-case]").each(function f() {
+    var id = $(this).data('case');
+    finalHtml = defaultHTMLs[id];
+
+    var offset = 0;
   
-  highlights.forEach(function(obj){ 
+    highlights.forEach(function(obj){ 
 
-    var insert = "<span style='background-color:" + colors[obj.factor % colors.length] + "'>" + obj.text + "</span>";
-    finalHtml = replaceAll(finalHtml, obj.text, insert);
+      if(obj.case == id) {
+
+        var insert = "<span style='background-color:" + colors[obj.factor % colors.length] + "'>" + obj.text + "</span>";
+        finalHtml = replaceAll(finalHtml, obj.text, insert);
+      }
+    });
+
+    $(this).html(finalHtml);
   });
-
-  testCase.html(finalHtml);
 }
 
 var renderFactors = function() {
@@ -131,6 +154,5 @@ var renderFactors = function() {
   }
 }
 
-defaultTestCaseHTML = testCase.html();
 renderFactors();
 renderTestCase();
