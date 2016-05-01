@@ -172,8 +172,13 @@ var renderFactors = function() {
         count++;
         var _td = $("<tr>");
 
+        var titleCase = function(caseId) {
+          var names = ['Test', 'IC 1', 'IC 2', 'E 1', 'E 2'];
+          return names[caseId];
+        }
+
         var a = $("<td>");
-        a.html(sortedH[j].case);
+        a.html(titleCase(sortedH[j].case));
 
         var b = $("<td>");
         b.html(sortedH[j].text);
